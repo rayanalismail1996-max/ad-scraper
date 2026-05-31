@@ -5,14 +5,13 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get('/scrape-ads', async (req, res) => {
+const handleRequest = async (req, res) => {
     const makeWebhookUrl = process.env.MAKE_WEBHOOK_URL;
 
     if (!makeWebhookUrl) {
-        return res.status(500).json({ error: "Missing MAKE_WEBHOOK_URL" });
+        return res.status(500).json({ error: "Missing MAKE_WEBHOOK_URL environment variable" });
     }
 
-    // Hardcoded mock data to instantly train your Make Scenario
     const mockAds = [
         { ad_creative_body: "إعلان تجريبي لمتجر شوبيفاي - احصل على خصم 50% اليوم" },
         { ad_creative_body: "تسوق أفضل المنتجات المحلية في السعودية التوصيل سريع" }
@@ -28,6 +27,10 @@ app.get('/scrape-ads', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-});
+};
 
-app.listen(PORT, () => console.log(`Server ready`)running safely on port ${PORT}`));
+// This handles both the main link and the sub-link perfectly
+app.get('/', handleRequest);
+app.get('/scrape-ads', handleRequest);
+
+app.listen(PORT, () => console.log(`Server ready`
