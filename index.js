@@ -1,5 +1,4 @@
 const express = require('express');
-const fetch = require('node-fetch');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -18,6 +17,7 @@ const handleRequest = async (req, res) => {
     ];
 
     try {
+        // Uses Node's built-in native fetch
         await fetch(makeWebhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -29,8 +29,7 @@ const handleRequest = async (req, res) => {
     }
 };
 
-// This handles both the main link and the sub-link perfectly
 app.get('/', handleRequest);
 app.get('/scrape-ads', handleRequest);
 
-app.listen(PORT, () => console.log(`Server ready`
+app.listen(PORT, () => console.log(`Server ready`));
