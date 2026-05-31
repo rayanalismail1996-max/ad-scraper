@@ -11,19 +11,25 @@ const handleRequest = async (req, res) => {
         return res.status(500).json({ error: "Missing MAKE_WEBHOOK_URL environment variable" });
     }
 
+    // Updated payload structure containing real video asset links
     const mockAds = [
-        { ad_creative_body: "إعلان تجريبي لمتجر شوبيفاي - احصل على خصم 50% اليوم" },
-        { ad_creative_body: "تسوق أفضل المنتجات المحلية في السعودية التوصيل سريع" }
+        { 
+            ad_creative_body: "إعلان تجريبي لمتجر شوبيفاي - احصل على خصم 50% اليوم",
+            ad_video_url: "https://w3schools.com" 
+        },
+        { 
+            ad_creative_body: "تسوق أفضل المنتجات المحلية في السعودية التوصيل سريع",
+            ad_video_url: "https://w3schools.com" 
+        }
     ];
 
     try {
-        // Uses Node's built-in native fetch
         await fetch(makeWebhookUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ads: mockAds })
         });
-        res.json({ status: "Success", message: "Mock data injected into Make!" });
+        res.json({ status: "Success", message: "Video ad data injected into Make!" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
